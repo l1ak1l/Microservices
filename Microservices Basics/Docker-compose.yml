@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  user_service:
+    build: ./user_service
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+
+  order_service:
+    build: ./order_service
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongo
+      - user_service
