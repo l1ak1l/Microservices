@@ -1,4 +1,3 @@
-version: '3'
 services:
   mongo:
     image: mongo:latest
@@ -7,15 +6,19 @@ services:
 
   user_service:
     build: ./user_service
-    ports:
-      - "5000:5000"
     depends_on:
       - mongo
 
   order_service:
     build: ./order_service
-    ports:
-      - "5001:5001"
     depends_on:
       - mongo
       - user_service
+
+  api_gateway:
+    build: ./Api_gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user_service
+      - order_service
